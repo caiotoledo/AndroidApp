@@ -59,10 +59,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (serviceRing != null) {
                     serviceRing.stopService(intentRing);
-                    saveVariable(KEY_ALARM, "No Alarm Set!");
-                    tvAlarm.setText("No Alarm Set!");
-                    serviceRing = null;
+                } else {
+                    Intent alarmIntent = new Intent(MainActivity.this, Alarm_Receiver.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, REQUEST_CODE_FINISH_ALARM, alarmIntent, 0);
+                    AlarmManager aManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    aManager.cancel(pendingIntent);
                 }
+
+                saveVariable(KEY_ALARM, "No Alarm Set!");
+                tvAlarm.setText("No Alarm Set!");
+                serviceRing = null;
             }
         });
 

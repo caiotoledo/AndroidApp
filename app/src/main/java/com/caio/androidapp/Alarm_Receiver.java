@@ -3,7 +3,6 @@ package com.caio.androidapp;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import static com.caio.androidapp.MainActivity.intentRing;
