@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
+import static com.caio.androidapp.MainActivity.intentRing;
+import static com.caio.androidapp.MainActivity.serviceRing;
+
 /**
  * Created by caio on 20/02/17.
  */
@@ -18,5 +21,8 @@ public class Alarm_Receiver extends BroadcastReceiver {
         Intent serviceIntent = new Intent(context, RingtonePlayingService.class);
 
         context.startService(serviceIntent);
+
+        intentRing = serviceIntent;
+        serviceRing = context;
     }
 }
