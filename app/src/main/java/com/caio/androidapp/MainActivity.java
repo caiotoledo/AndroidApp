@@ -12,11 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
@@ -39,11 +44,39 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fButton;
     TextView tvAlarm;
 
+    List<String> equip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.myContext = this;
+
+        ListView lista = (ListView) findViewById(R.id.AlarmList);
+
+        equip = new ArrayList<String>();;
+        equip.add("Teta");
+        equip.add("Beta");
+        equip.add("Gama");
+        equip.add("Omega");
+        equip.add("Omega");
+        equip.add("Omega");
+        equip.add("Omega");
+        equip.add("Omega");
+        equip.add("Omega");
+        equip.add("Omega");
+        equip.add("Omega");
+        equip.add("Omega");
+
+        //ArrayAdapter<String> arAdapter = new ArrayAdapter<String>(this.myContext, android.R.layout.simple_list_item_1, equip);
+        lista.setAdapter(new ListViewAdapter(this.myContext, R.layout.my_listview_layout, equip));
+
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "cliquei! " + equip.get(position).toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         fButton = (FloatingActionButton) findViewById(R.id.AddAlarm);
         fButton.setOnClickListener( new View.OnClickListener() {
@@ -149,5 +182,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(KeyName, Value);
         editor.commit();
+    }
+
+    public void onClickDelete(int position){
+        Toast.makeText(getApplicationContext(), "cliquei! " + equip.get(position).toString(), Toast.LENGTH_SHORT).show();
     }
 }

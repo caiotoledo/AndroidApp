@@ -35,10 +35,17 @@
         android:text="No Alarm Set!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="27dp"
-        android:id="@+id/tvAlarm" />
+        android:id="@+id/tvAlarm"
+        android:layout_alignBaseline="@+id/stopAlarm"
+        android:layout_alignBottom="@+id/stopAlarm"
+        android:layout_toStartOf="@+id/stopAlarm"
+        android:layout_marginEnd="19dp" />
+
+    <ListView
+        android:id="@+id/AlarmList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/stopAlarm"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
