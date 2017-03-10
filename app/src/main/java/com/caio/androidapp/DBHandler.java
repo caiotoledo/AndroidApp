@@ -20,12 +20,15 @@ public class DBHandler extends SQLiteOpenHelper {
     // Tables name
     private static final String TABLE_MEDS = "MedAlarm";
     private static final String TABLE_GRAPH = "MedGraph";
-    // Shops Table Columns names
+    // TABLE_MEDS Table Columns names
     private static final String KEY_ID = "id";
     private static final String KEY_MED_NAME = "medName";
     private static final String KEY_ALARM_ID = "AlarmRequestID";
     private static final String KEY_ALARM_START_TIME = "AlarmStartTime";
     private static final String KEY_ALARM_INTERVAL = "AlarmInterval";
+    // TABLE_GRAPH Table Columns names
+    private static final String KEY_ID_GRAPH = "id";
+    private static final String KEY_ID_MED = "id";
 
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

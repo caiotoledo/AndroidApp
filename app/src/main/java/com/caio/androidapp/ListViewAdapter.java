@@ -46,16 +46,15 @@ public class ListViewAdapter extends ArrayAdapter<MedicineAlarm> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.getUpperText().setText(dataSource.get(position).getMedName() + " ID " + String.valueOf(dataSource.get(position).getId()) );
+        holder.getUpperText().setText(dataSource.get(position).getMedName());
         holder.getLowerText().setText(dataSource.get(position).getAlarmStartTime()
-                + " a cada " + String.valueOf(dataSource.get(position).getAlarmIntervalStringTime()) + " Horas" );
+                + " a cada " + String.valueOf(dataSource.get(position).getAlarmIntervalStringTime()) );
         holder.getBDelete().setText("Excluir");
 
         final int pos = position;
         View.OnClickListener list = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "cliquei! " + String.valueOf(dataSource.get(pos).getAlarmRequestID()), Toast.LENGTH_SHORT).show();
                 new AlertDialog.Builder(context)
                         .setTitle("Remove Medicine Alarm")
                         .setMessage("Deseja remover este alarme?")

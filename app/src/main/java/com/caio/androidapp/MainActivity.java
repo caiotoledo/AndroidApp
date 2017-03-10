@@ -41,15 +41,17 @@ public class MainActivity extends AppCompatActivity {
     public static final String KEY_HOUR = "KEY_HOUR";
     public static final String KEY_INTERVAL = "KEY_INTERVAL";
 
+    public static final String KEY_REQ_CODE = "KEY_REQ_CODE";
+
     public static Context serviceRing = null;
     public static Intent intentRing;
 
-    public static DBHandler dbMed = null;
+    private static DBHandler dbMed = null;
     private static List<MedicineAlarm> listMed = null;
 
     Context myContext;
 
-    public static Button bOffAlarm;
+    public static Button bOffAlarm = null;
     FloatingActionButton fButton;
     ListView lvAlarm;
 
@@ -91,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (serviceRing != null) {
                     serviceRing.stopService(intentRing);
+                    bOffAlarm.setVisibility(View.INVISIBLE);
                 }
                 serviceRing = null;
             }
@@ -171,22 +174,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
         /* Intent to Alarm Receiver: */
-        //alarmIntent = new Intent(this.myContext, Alarm_Receiver.class);
         Intent alarmIntent = new Intent(MainActivity.this, Alarm_Receiver.class);
+        alarmIntent.putExtra(KEY_REQ_CODE, request_code_alarm);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, request_code_alarm, alarmIntent, 0);
 
         AlarmManager aManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         if (interval > 0) {
-            aManager.setRepeating(AlarmManager.RTC_WAKEUP, 0, interval, pendingIntent);
+            aManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmTime, interval, pendingIntent);
+        } else {
+            aManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
         }
-        aManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
         return ALARM_VALUE_SUCCESS;
     }
 
     public static void removeMed(Context context, int pos){
         int request_code_alarm = listMed.get(pos).getAlarmRequestID();
 
+        /* Delete Alarm: */
         Intent alarmIntent = new Intent(context, Alarm_Receiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, request_code_alarm, alarmIntent, 0);
         AlarmManager aManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
