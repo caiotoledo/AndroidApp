@@ -22,9 +22,39 @@
         android:text="Set Alarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/timePicker"
+        android:id="@+id/AddAlarm"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/etInterval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:ems="10"
+        android:hint="Entre o intervalor em Horas"
+        android:inputType="time"
+        android:text="08:00"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/etInterval"
+        android:layout_alignStart="@+id/etInterval"
+        android:text="@string/TextView_Inteval" />
+
+    <EditText
+        android:id="@+id/etNameMed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="29dp"
-        android:id="@+id/AddAlarm" />
+        android:layout_below="@+id/timePicker"
+        android:ems="10"
+        android:hint="@string/tvHint_NameMed"
+        android:inputType="textPersonName" />
+
 </RelativeLayout>

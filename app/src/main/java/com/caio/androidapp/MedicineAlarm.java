@@ -59,6 +59,22 @@ public class MedicineAlarm {
         return AlarmInterval;
     }
 
+    public String getAlarmIntervalStringTime(){
+        int hour = AlarmInterval / (60 * 60 * 1000);
+        int minute = (AlarmInterval - (hour * (60 * 60 * 1000))) / (60 * 1000);
+
+        String sHour = String.valueOf(hour);
+        String sMinute = String.valueOf(minute);
+        if (hour < 10){
+            sHour = "0" + sHour;
+        }
+        if (minute < 10){
+            sMinute = "0" + sMinute;
+        }
+
+        return sHour + ":" + sMinute;
+    }
+
     public void setAlarmInterval(int alarmInterval) {
         AlarmInterval = alarmInterval;
     }

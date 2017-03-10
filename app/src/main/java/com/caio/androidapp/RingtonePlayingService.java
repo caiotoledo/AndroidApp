@@ -10,9 +10,11 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import static com.caio.androidapp.MainActivity.ALARM_FINISH;
+import static com.caio.androidapp.MainActivity.bOffAlarm;
 
 /**
  * Created by caio on 20/02/17.
@@ -55,6 +57,8 @@ public class RingtonePlayingService extends Service {
                 .setAutoCancel(true)
                 .build();
         notifyManager.notify(0, notify);
+
+        bOffAlarm.setVisibility(View.VISIBLE);
 
         return START_NOT_STICKY;
     }

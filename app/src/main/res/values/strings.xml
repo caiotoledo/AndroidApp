@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Health Clock</string>
+    <string name="TextView_Inteval">Intervalo Medicamento:</string>
+    <string name="tvHint_NameMed">Digite o nome do Medicamento</string>
 </resources>

@@ -31,16 +31,6 @@
         android:layout_above="@+id/AddAlarm"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:text="No Alarm Set!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvAlarm"
-        android:layout_alignBaseline="@+id/stopAlarm"
-        android:layout_alignBottom="@+id/stopAlarm"
-        android:layout_toStartOf="@+id/stopAlarm"
-        android:layout_marginEnd="19dp" />
-
     <ListView
         android:id="@+id/AlarmList"
         android:layout_width="match_parent"
