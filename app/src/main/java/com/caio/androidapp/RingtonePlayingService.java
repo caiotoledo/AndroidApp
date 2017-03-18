@@ -41,7 +41,7 @@ public class RingtonePlayingService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId){
         this.ringContext = this;
 
-        Log.i("LocalService", "Received start id " + startId + ": " + intent);
+        Log.d("RingtonePlayingService", "Received start id " + startId + ": " + intent);
 
         int req_code = intent.getIntExtra(KEY_REQ_CODE, MainActivity.ALARM_VALUE_ERROR);
         DBHandler dbMed = new DBHandler(this);
@@ -86,8 +86,6 @@ public class RingtonePlayingService extends Service {
     public void onDestroy() {
 
         mPlayer.stop();
-
-        Toast.makeText(this, "On Destroy Called", Toast.LENGTH_SHORT).show();
 
         super.onDestroy();
     }

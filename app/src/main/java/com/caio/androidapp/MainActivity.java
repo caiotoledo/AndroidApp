@@ -125,8 +125,17 @@ public class MainActivity extends AppCompatActivity {
                     String sAlarm = data.getStringExtra(KEY_ALARM);
                     String sNameMed = data.getStringExtra(KEY_MEDNAME);
 
+                    /* Generate a Unique Request Code for Alarm: */
                     Random r = new Random();
-                    int request_code_alarm = r.nextInt(Integer.MAX_VALUE);
+                    int request_code_alarm = ALARM_VALUE_ERROR;
+                    while(request_code_alarm == ALARM_VALUE_ERROR){
+                        request_code_alarm = r.nextInt(Integer.MAX_VALUE);
+                        for(MedicineAlarm m : listMed){
+                            if (m.getAlarmRequestID() == request_code_alarm)
+                                request_code_alarm = ALARM_VALUE_ERROR;
+                        }
+                    }
+
                     /* Configure Alarm: */
                     int ret = configAlarm(hour, minute, interval, request_code_alarm);
 
@@ -137,9 +146,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else if (resultCode == Activity.RESULT_CANCELED){
                     returnValue = "Cancelado pelo Usuario";
-                }
-                else if (resultCode == Activity.RESULT_FIRST_USER) {
-                    returnValue = "Erro Intervalo Medicamento";
                 }
                 else {
                     returnValue = String.valueOf(resultCode);

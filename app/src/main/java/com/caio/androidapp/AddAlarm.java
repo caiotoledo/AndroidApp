@@ -56,6 +56,16 @@ public class AddAlarm extends AppCompatActivity {
                 String sInterval = etInterval.getText().toString();
                 String sNameMed = etNameMed.getText().toString();
 
+                if(sNameMed.isEmpty()){
+                    Context context = getApplicationContext();
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, "Insira o nome do Medicamento", duration);
+                    toast.show();
+
+                    setResult(Activity.RESULT_FIRST_USER);
+                    return;
+                }
+
                 String sHour = String.valueOf(hour);
                 String sMinute = String.valueOf(minute);
                 if (hour < 10){
@@ -66,19 +76,30 @@ public class AddAlarm extends AppCompatActivity {
                 }
 
                 long interval = -1;
-                DateFormat formatter = new SimpleDateFormat("hh:mm");
+                DateFormat formatter = new SimpleDateFormat("HH:mm");
                 try {
                     Date dateStart = formatter.parse("00:00");
                     Date dateInterval = formatter.parse(sInterval);
                     interval = dateInterval.getTime() - dateStart.getTime();
                 } catch (ParseException e) {
                     e.printStackTrace();
+
+                    Context context = getApplicationContext();
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, "Erro Intervalo Medicamento", duration);
+                    toast.show();
+
                     setResult(Activity.RESULT_FIRST_USER);
-                    finish();
+                    return;
                 }
 
+                Calendar c = Calendar.getInstance();
+                String sDay = String.valueOf(c.get(Calendar.DAY_OF_MONTH));
+                String sMonth = String.valueOf(c.get(Calendar.MONTH));
+                String sYear = String.valueOf(c.get(Calendar.YEAR));
+
                 Intent resultIntent = new Intent();
-                resultIntent.putExtra(KEY_ALARM, sHour + ":" + sMinute );
+                resultIntent.putExtra(KEY_ALARM, sDay + "/" + sMonth + "/" + sYear + " " + sHour + ":" + sMinute );
                 resultIntent.putExtra(KEY_HOUR, hour);
                 resultIntent.putExtra(KEY_MINUTE, minute);
                 resultIntent.putExtra(KEY_INTERVAL, interval);
@@ -87,8 +108,5 @@ public class AddAlarm extends AppCompatActivity {
                 finish();
             }
         });
-
-
-        Intent intent = getIntent();
     }
 }

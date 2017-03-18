@@ -47,7 +47,7 @@ public class ListViewAdapter extends ArrayAdapter<MedicineAlarm> {
         }
 
         holder.getUpperText().setText(dataSource.get(position).getMedName());
-        holder.getLowerText().setText(dataSource.get(position).getAlarmStartTime()
+        holder.getLowerText().setText("A partir de " + dataSource.get(position).getAlarmStartTime()
                 + " a cada " + String.valueOf(dataSource.get(position).getAlarmIntervalStringTime()) );
         holder.getBDelete().setText("Excluir");
 
