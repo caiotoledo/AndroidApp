@@ -8,17 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
-import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.List;
 
 import static com.caio.androidapp.MainActivity.ALARM_FINISH;
 import static com.caio.androidapp.MainActivity.KEY_REQ_CODE;
-import static com.caio.androidapp.MainActivity.bOffAlarm;
 
 /**
  * Created by caio on 20/02/17.
@@ -50,6 +47,7 @@ public class RingtonePlayingService extends Service {
         for (MedicineAlarm med : listMed){
             if (med.getAlarmRequestID() == req_code){
                 medAlarm = med;
+                MainActivity.setMedAlarmIDRing(medAlarm.getId());
             }
         }
 
@@ -63,7 +61,6 @@ public class RingtonePlayingService extends Service {
         Intent intentMain = new Intent(this.getApplicationContext(), MainActivity.class);
         intentMain.putExtra(ALARM_FINISH, ALARM_FINISH);
         PendingIntent pendIntentMain = PendingIntent.getActivity(this, 0, intentMain, 0);
-        //PendingIntent pendIntentMain = PendingIntent.getBroadcast(this, 0, intentMain, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationManager notifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notify = new Notification.Builder(this)
@@ -75,8 +72,11 @@ public class RingtonePlayingService extends Service {
                 .build();
         notifyManager.notify(0, notify);
 
-        if (bOffAlarm != null) {
-            bOffAlarm.setVisibility(View.VISIBLE);
+        if (MainActivity.bMedOK != null) {
+            MainActivity.bMedOK.setVisibility(View.VISIBLE);
+        }
+        if (MainActivity.bMedNOK != null){
+            MainActivity.bMedNOK.setVisibility(View.VISIBLE);
         }
 
         return START_NOT_STICKY;
@@ -89,6 +89,4 @@ public class RingtonePlayingService extends Service {
 
         super.onDestroy();
     }
-
-
 }

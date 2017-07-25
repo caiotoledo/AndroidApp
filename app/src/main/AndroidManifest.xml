@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.caio.androidapp">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/health_ic_lancher"
@@ -15,11 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddAlarm"></activity>
-        <receiver android:name=".Alarm_Receiver" />
-        <service android:name=".RingtonePlayingService" />
-    </application>
+        <activity android:name=".AddAlarm" />
+        <activity android:name=".ListMedTaken" />
 
-    <uses-permission android:name="android.permission.VIBRATE" />
+        <receiver android:name=".Alarm_Receiver" />
+
+        <service android:name=".RingtonePlayingService" />
+
+    </application>
 
 </manifest>

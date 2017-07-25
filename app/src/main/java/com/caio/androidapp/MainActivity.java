@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -43,19 +44,31 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String KEY_REQ_CODE = "KEY_REQ_CODE";
 
+    public static final String KEY_MED_ID = "KEY_MED_ID";
+
     public static Context serviceRing = null;
     public static Intent intentRing;
+    private static int medAlarmIDRing = ALARM_VALUE_ERROR;
 
-    private static DBHandler dbMed = null;
+    public static DBHandler dbMed = null;
     private static List<MedicineAlarm> listMed = null;
 
     Context myContext;
 
-    public static Button bOffAlarm = null;
-    FloatingActionButton fButton;
+    public static Button bMedOK = null;
+    public static Button bMedNOK = null;
+    FloatingActionButton bAddAlarm;
     ListView lvAlarm;
 
     ListViewAdapter lvAdapter;
+
+    public static int getMedAlarmIDRing() {
+        return medAlarmIDRing;
+    }
+
+    public static void setMedAlarmIDRing(int medAlarmIDRing) {
+        MainActivity.medAlarmIDRing = medAlarmIDRing;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,40 +80,56 @@ public class MainActivity extends AppCompatActivity {
         dbMed = new DBHandler(this);
         listMed = dbMed.getAllMeds();
 
+        //Configuring Medicine Alarm ListView
         lvAlarm = (ListView) findViewById(R.id.AlarmList);
-
         lvAdapter = new ListViewAdapter(this.myContext, R.layout.my_listview_layout, listMed);
         lvAlarm.setAdapter(lvAdapter);
 
-        lvAlarm.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "cliquei aqui " + listMed.get(position).toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        fButton = (FloatingActionButton) findViewById(R.id.AddAlarm);
-        fButton.setOnClickListener( new View.OnClickListener() {
+        //Configuring Add Alarm Button
+        bAddAlarm = (FloatingActionButton) findViewById(R.id.AddAlarm);
+        bAddAlarm.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openActivity(v);
             }
         } );
 
-        bOffAlarm = (Button) findViewById(R.id.stopAlarm);
-        bOffAlarm.setOnClickListener( new View.OnClickListener(){
+        //Buttons for Alarm Off:
+        bMedOK = (Button) findViewById(R.id.medOK);
+        bMedOK.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick(View v) { medAlarmButton(true); }
+        });
+
+        bMedNOK = (Button) findViewById(R.id.medNOK);
+        bMedNOK.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if (serviceRing != null) {
-                    serviceRing.stopService(intentRing);
-                    bOffAlarm.setVisibility(View.INVISIBLE);
-                }
-                serviceRing = null;
+                medAlarmButton(false);
             }
         });
+
         if (serviceRing == null){
-            bOffAlarm.setVisibility(View.INVISIBLE);
+            bMedOK.setVisibility(View.INVISIBLE);
+            bMedNOK.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void medAlarmButton(boolean medTake){
+        if (serviceRing != null) {
+            serviceRing.stopService(intentRing);
+
+            Calendar c = Calendar.getInstance();
+            Log.i("TimeNow", c.getTime().toString());
+
+            // Save current Medicine Taken:
+            dbMed.addGraph( new GraphAlarm(0, medAlarmIDRing, c.getTime().toString(), new Boolean(medTake)) );
+            medAlarmIDRing = ALARM_VALUE_ERROR;
+        }
+        serviceRing = null;
+
+        bMedOK.setVisibility(View.INVISIBLE);
+        bMedNOK.setVisibility(View.INVISIBLE);
     }
 
     public void openActivity(View v){
@@ -146,15 +175,22 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else if (resultCode == Activity.RESULT_CANCELED){
                     returnValue = "Cancelado pelo Usuario";
+
+                    Context context = getApplicationContext();
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, returnValue, duration);
+                    toast.show();
                 }
                 else {
                     returnValue = String.valueOf(resultCode);
+
+                    Context context = getApplicationContext();
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, returnValue, duration);
+                    toast.show();
                 }
 
-                Context context = getApplicationContext();
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, returnValue, duration);
-                toast.show();
+
                 break;
             }
         }

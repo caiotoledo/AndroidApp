@@ -24,18 +24,27 @@
         app:elevation="4dp" />
 
     <Button
-        android:text="Alarm off"
+        android:text="Med OK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/stopAlarm"
+        android:id="@+id/medOK"
         android:layout_alignTop="@+id/AddAlarm"
-        android:layout_centerHorizontal="true" />
+        android:layout_toStartOf="@+id/AddAlarm"
+        android:layout_marginEnd="24dp" />
+    <Button
+        android:id="@+id/medNOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="Med ÑOK"
+        android:layout_below="@+id/AlarmList"
+        android:layout_toStartOf="@+id/medOK" />
 
     <ListView
         android:id="@+id/AlarmList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/stopAlarm"
+        android:layout_above="@+id/medOK"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView" />
 

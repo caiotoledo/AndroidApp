@@ -3,6 +3,7 @@ package com.caio.androidapp;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -69,7 +70,19 @@ public class ListViewAdapter extends ArrayAdapter<MedicineAlarm> {
             }
         };
 
+        final int idMed = dataSource.get(position).getId();
+        View.OnClickListener dataShow = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ListMedTaken.class);
+                intent.putExtra(MainActivity.KEY_MED_ID, idMed);
+                v.getContext().startActivity(intent);
+            }
+        };
+
         holder.getBDelete().setOnClickListener( list );
+        holder.getUpperText().setOnClickListener( dataShow );
+        holder.getLowerText().setOnClickListener( dataShow );
 
         return convertView;
     }
